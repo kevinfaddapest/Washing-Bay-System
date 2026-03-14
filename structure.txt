@@ -1,0 +1,17 @@
+carwash/
+│
+├── config.php
+├── db.sql
+├── login.php
+├── logout.php
+├── dashboard.php
+├── add_service.php
+├── view_services.php
+├── reports.php
+├── get_price.php
+├── users.php
+├── add_user.php
+├── edit_user.php
+├── style.css
+└── assets/
+    └── logo.png  (optional)
