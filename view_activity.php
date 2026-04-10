@@ -86,7 +86,7 @@ main { padding:20px;}
 
 /* Buttons in Table */
 .action-btn { padding:5px 5px; margin:2px; border:none; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s; white-space:nowrap;}
-.delete-btn { background:#dc3545; color:#fff; width:80%; }
+.delete-btn { background:#dc3545; color:#fff; width:50%; }
 .delete-btn:hover { background:#c82333; }
 
 /* Modal Styles */

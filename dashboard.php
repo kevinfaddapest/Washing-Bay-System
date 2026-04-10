@@ -35,26 +35,93 @@ logActivity($user_id, $user, "Dashboard Access", $details);
 // =======================
 if ($role == 'admin') {
     // REVENUE
-    $today_rev = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE DATE(date)=CURDATE()")->fetch_assoc()['total'] ?? 0);
-    $week_rev = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)")->fetch_assoc()['total'] ?? 0);
-    $month_rev = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE MONTH(date)=MONTH(CURDATE())")->fetch_assoc()['total'] ?? 0);
-    $quarter_rev = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE QUARTER(date)=QUARTER(CURDATE())")->fetch_assoc()['total'] ?? 0);
-    $year_rev = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE YEAR(date)=YEAR(CURDATE())")->fetch_assoc()['total'] ?? 0);
+    // REVENUE (FIXED)
+$today_rev = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE DATE(date)=CURDATE()
+")->fetch_row()[0] ?? 0);
+
+$week_rev = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE YEARWEEK(date,1)=YEARWEEK(CURDATE(),1)
+")->fetch_row()[0] ?? 0);
+
+$month_rev = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE YEAR(date)=YEAR(CURDATE()) 
+    AND MONTH(date)=MONTH(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+$quarter_rev = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE YEAR(date)=YEAR(CURDATE()) 
+    AND QUARTER(date)=QUARTER(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+$year_rev = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE YEAR(date)=YEAR(CURDATE())
+")->fetch_row()[0] ?? 0);
 
     // EXPENSES
-    $today_exp = (float)($conn->query("SELECT SUM(amount) AS total FROM expenses WHERE DATE(date)=CURDATE()")->fetch_assoc()['total'] ?? 0);
-    $week_exp = (float)($conn->query("SELECT SUM(amount) AS total FROM expenses WHERE date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)")->fetch_assoc()['total'] ?? 0);
-    $month_exp = (float)($conn->query("SELECT SUM(amount) AS total FROM expenses WHERE MONTH(date)=MONTH(CURDATE())")->fetch_assoc()['total'] ?? 0);
-    $quarter_exp = (float)($conn->query("SELECT SUM(amount) AS total FROM expenses WHERE QUARTER(date)=QUARTER(CURDATE())")->fetch_assoc()['total'] ?? 0);
-    $year_exp = (float)($conn->query("SELECT SUM(amount) AS total FROM expenses WHERE YEAR(date)=YEAR(CURDATE())")->fetch_assoc()['total'] ?? 0);
+    // EXPENSES (FIXED)
+$today_exp = (float)($conn->query("
+    SELECT SUM(amount) FROM expenses 
+    WHERE DATE(date)=CURDATE()
+")->fetch_row()[0] ?? 0);
+
+$week_exp = (float)($conn->query("
+    SELECT SUM(amount) FROM expenses 
+    WHERE YEARWEEK(date,1)=YEARWEEK(CURDATE(),1)
+")->fetch_row()[0] ?? 0);
+
+$month_exp = (float)($conn->query("
+    SELECT SUM(amount) FROM expenses 
+    WHERE YEAR(date)=YEAR(CURDATE()) 
+    AND MONTH(date)=MONTH(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+$quarter_exp = (float)($conn->query("
+    SELECT SUM(amount) FROM expenses 
+    WHERE YEAR(date)=YEAR(CURDATE()) 
+    AND QUARTER(date)=QUARTER(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+$year_exp = (float)($conn->query("
+    SELECT SUM(amount) FROM expenses 
+    WHERE YEAR(date)=YEAR(CURDATE())
+")->fetch_row()[0] ?? 0);
 
    // VEHICLES = TOTAL RECORDS
-    $today_veh = (int)($conn->query("SELECT COUNT(*) AS v FROM services WHERE DATE(date)=CURDATE()")->fetch_assoc()['v'] ?? 0);
-    $week_veh = (int)($conn->query("SELECT COUNT(*) AS v FROM services WHERE date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)")->fetch_assoc()['v'] ?? 0);
-    $month_veh = (int)($conn->query("SELECT COUNT(*) AS v FROM services WHERE MONTH(date)=MONTH(CURDATE())")->fetch_assoc()['v'] ?? 0);
-    $quarter_veh = (int)($conn->query("SELECT COUNT(*) AS v FROM services WHERE QUARTER(date)=QUARTER(CURDATE())")->fetch_assoc()['v'] ?? 0);
-    $year_veh = (int)($conn->query("SELECT COUNT(*) AS v FROM services WHERE YEAR(date)=YEAR(CURDATE())")->fetch_assoc()['v'] ?? 0);
-    // VEHICLES PER YEAR (last 5 years)
+   // VEHICLES (FIXED)
+$today_veh = (int)($conn->query("
+    SELECT COUNT(*) FROM services 
+    WHERE DATE(date)=CURDATE()
+")->fetch_row()[0] ?? 0);
+
+$week_veh = (int)($conn->query("
+    SELECT COUNT(*) FROM services 
+    WHERE YEARWEEK(date,1)=YEARWEEK(CURDATE(),1)
+")->fetch_row()[0] ?? 0);
+
+$month_veh = (int)($conn->query("
+    SELECT COUNT(*) FROM services 
+    WHERE YEAR(date)=YEAR(CURDATE()) 
+    AND MONTH(date)=MONTH(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+$quarter_veh = (int)($conn->query("
+    SELECT COUNT(*) FROM services 
+    WHERE YEAR(date)=YEAR(CURDATE()) 
+    AND QUARTER(date)=QUARTER(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+$year_veh = (int)($conn->query("
+    SELECT COUNT(*) FROM services 
+    WHERE YEAR(date)=YEAR(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+// VEHICLES PER YEAR (last 5 years)
 $vehicles_per_year = [];
 $result = $conn->query("
     SELECT YEAR(date) AS yr, COUNT(*) AS total 
@@ -75,12 +142,38 @@ $vehicle_year_data = json_encode(array_values($vehicles_per_year));
 // STAFF DASHBOARD DATA                        
 // ======================= 
 if ($role != 'admin') {
-    $user_today = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE added_by='$user' AND DATE(date)=CURDATE()")->fetch_assoc()['total'] ?? 0);
-    $user_week = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE added_by='$user' AND date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)")->fetch_assoc()['total'] ?? 0);
-    $user_month = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE added_by='$user' AND MONTH(date)=MONTH(CURDATE())")->fetch_assoc()['total'] ?? 0); 
-    $user_quarter = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE added_by='$user' AND QUARTER(date)=QUARTER(CURDATE())")->fetch_assoc()['total'] ?? 0);                        
-    $user_year = (float)($conn->query("SELECT SUM(price) AS total FROM services WHERE added_by='$user' AND YEAR(date)=YEAR(CURDATE())")->fetch_assoc()['total'] ?? 0); 
+   // STAFF (FIXED)
+$user_today = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE added_by='$user' 
+    AND DATE(date)=CURDATE()
+")->fetch_row()[0] ?? 0);
 
+$user_week = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE added_by='$user' 
+    AND YEARWEEK(date,1)=YEARWEEK(CURDATE(),1)
+")->fetch_row()[0] ?? 0);
+
+$user_month = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE added_by='$user' 
+    AND YEAR(date)=YEAR(CURDATE()) 
+    AND MONTH(date)=MONTH(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+$user_quarter = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE added_by='$user' 
+    AND YEAR(date)=YEAR(CURDATE()) 
+    AND QUARTER(date)=QUARTER(CURDATE())
+")->fetch_row()[0] ?? 0);
+
+$user_year = (float)($conn->query("
+    SELECT SUM(price) FROM services 
+    WHERE added_by='$user' 
+    AND YEAR(date)=YEAR(CURDATE())
+")->fetch_row()[0] ?? 0);
     $user_total = (int)($conn->query("SELECT COUNT(*) AS total FROM services WHERE added_by='$user'")->fetch_assoc()['total'] ?? 0);
     $user_vehicles = (int)($conn->query("SELECT COUNT(*) AS v FROM services WHERE added_by='$user'")->fetch_assoc()['v'] ?? 0);
     $user_latest = $conn->query("SELECT * FROM services WHERE added_by='$user' ORDER BY date DESC LIMIT 5");

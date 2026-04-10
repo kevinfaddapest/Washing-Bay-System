@@ -9,11 +9,13 @@
   <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="assets/slick/slick.css">
   <link rel="stylesheet" href="assets/slick/slick-theme.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
 <style>
 .body { font-family: "Poppins", sans-serif; margin:0; background:#f5f7fa; color:#333; }
   header { background:#004aad; padding:20px; text-align:center; color:white; }
   header h1 { margin:0; font-size:2em; }
-.hero { background:url("assets/images/car wash9.jpeg") center/cover no-repeat; height:70vh; display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; text-align:center; position:relative; }
+.hero { background:url("assets/images/car wash9.jpeg") center/cover no-repeat; height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; text-align:center; position:relative; }
 .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.4); }
 .hero * { position:relative; z-index:1; }
 .hero h2 { font-size:2.5em; }
@@ -24,7 +26,7 @@
 .welcome { text-align:center; padding:50px 20px; }
 .welcome img { width:150px; border-radius:10px; }
 .slider { width:85%; margin:40px auto; }
-.slider img { width:100%; height:400px; object-fit:cover; border-radius:10px; }
+.slider img { width:100%; height:600px; object-fit:cover; border-radius:10px; }
 .info { text-align:center; background:white; width:85%; margin:40px auto; padding:50px; border-radius:10px; }
 .info-card { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
 .card { flex:1 1 200px; padding:25px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,.1); }
@@ -37,18 +39,53 @@
 .contact { background:#425879FF; color:white; text-align:center; padding:50px; }
 footer { background:#007BFF; color:white; text-align:center; padding:15px; }
 @media(max-width:768px){ .features,.info-card{flex-direction:column;} }
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  background: #000; /* optional */
+  color: #fff;     /* optional */
+}
+
+.marquee-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll-text 15s linear infinite;
+}
+
+@keyframes scroll-text {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Make it smoother on small screens */
+@media (max-width: 768px) {
+  .marquee-text {
+    animation-duration: 10s;
+  }
+}
 
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>🚗 AUTO Detail Car Wash</h1>
-    <nav>
-      <a href="dashboard.php"><h3><marquee>AUTO Detail Car Wash - Your Profession Car Wash Bay You Can Trust</marquee></h3></a>
-    </nav>
-  </header>
+ <header>
+  <h1>🚗 AUTO Detail Car Wash</h1>
+  <nav>
+    <a href="dashboard.php">
+      <div class="marquee-container">
+        <div class="marquee-text">
+          AUTO Detail Car Wash - Your Professional Car Wash Bay You Can Trust
+        </div>
+      </div>
+    </a>
+  </nav>
+</header>
   <section class="hero">
     <h2>Professional Car Care You Can Trust</h2>
     <p>Fast • Affordable • Spotless Shine Every Time</p>
@@ -69,7 +106,7 @@ footer { background:#007BFF; color:white; text-align:center; padding:15px; }
 
     <!-- Slider -->
     <section class="slider">
-      <div><img src="assets/images/car wash1.jpg" alt="Car Wash 1"></div>
+      <div><img src="assets/images/car wash4.jpg" alt="Car Wash 1"></div>
       <div><img src="assets/images/car wash2.jpg" alt="Car Wash 2"></div>
       <div><img src="assets/images/car wash3.jpg" alt="Car Wash 3"></div>
       <div><img src="assets/images/car wash4.jpg" alt="Car Wash 4"></div>
@@ -126,7 +163,7 @@ footer { background:#007BFF; color:white; text-align:center; padding:15px; }
   <h2>Contact Us</h2>
   <p>📍 Market Sheet, Entebbe, Uganda</p>
   <p>📞 +256 (703) 414-971, +256 (700) 667-769</p>
-  <p>📧 <a href="mailto:makangaautocentre@gmail.com">makangaautocentre@gmail.com</a></p>
+  <p style="color:yellow;">📧 <a href="mailto:makangaautocentre@gmail.com" style="color:yellow;">makangaautocentre@gmail.com</a></p>
 </section>
 
   </main>
@@ -139,12 +176,23 @@ footer { background:#007BFF; color:white; text-align:center; padding:15px; }
   <script src="assets/jquery/jquery-3.7.0.min.js"></script>
 <script src="assets/slick/slick.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <script>
-$(function(){
-$('.slider').slick({autoplay:true,dots:true,arrows:true});
-$('.testimonials-slider').slick({autoplay:true,dots:true,arrows:false});
-});
+  $(document).ready(function () {
+    $('.slider').slick({
+      autoplay: true,
+      dots: true,
+      arrows: true
+    });
+
+    $('.testimonials-slider').slick({
+      autoplay: true,
+      dots: true,
+      arrows: false
+    });
+  });
 </script>
 </body>
 </html>

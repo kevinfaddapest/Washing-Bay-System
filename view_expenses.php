@@ -109,6 +109,7 @@ main { padding:20px;}
 <nav>
     <a href="dashboard.php">Home</a>
     <a href="dashboard.php">Dashboard</a>
+    <a href="view_services.php">View Records</a>
     <a href="add_expense.php">Add Expense</a>
     <a href="backup_system.php">🔥 Backup</a> 
     <a href="reports.php">Reports</a>

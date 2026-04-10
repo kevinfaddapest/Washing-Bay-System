@@ -97,11 +97,12 @@ main { padding:20px;}
 #services-table td:first-child { font-weight:bold; text-align:center; background:#eaf4ff; color:#0056b3;}
 #grandTotal { font-weight:bold; }
 /* ===== Buttons in Table ===== */
-.action-btn { padding:10px 10px; margin:2px; border:none; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s; white-space:nowrap;}
+.action-btn { padding:5px 5px; margin:2px; border:none; border-radius:4px; cursor:pointer; font-size:13px; transition:0.3s; white-space:nowrap;}
 .edit-btn { background:#28a745; color:#fff; width:50%; }
 .edit-btn:hover { background:#1e7e34; }
 .delete-btn { background:#dc3545; color:#fff; width:50%; }
 .delete-btn:hover { background:#c82333; }
+
 /* ===== Modal ===== */
 .modal { display:none; position:fixed; z-index:100; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.4);}
 .modal-content { background:#fff; margin:5% auto; padding:20px; border-radius:8px; width:90%; max-width:500px; position:relative;}
@@ -131,7 +132,7 @@ main { padding:20px;}
     <?php if($userRole === 'admin'): ?>
         <a href="backup_system.php">🔥 Backup</a> 
         <a href="reports.php">Reports</a>
-        <a href="view_expenses.php">Expenses</a>
+        <a href="view_expenses.php"> Expenses</a>
     <?php endif; ?>
     <a href="logout.php">Logout</a>
 </nav>
@@ -203,7 +204,7 @@ main { padding:20px;}
       <tbody></tbody>
       <tfoot>
           <tr style="font-weight:bold; background:#f0f0f0;">
-              <td colspan="6" style="text-align:right;">Grand Total</td>
+              <td colspan="6" style="text-align:center;">Grand Total</td>
               <td id="grandTotal">UGX 0</td>
               <td colspan="4"></td>
           </tr>

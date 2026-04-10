@@ -229,9 +229,9 @@ $html = '<table border="1" cellpadding="4">
 <tr style="background-color:#dc3545;color:white;font-weight:bold;">
 <th width="5%">#</th>
 <th width="35%">Expense Name</th>
-<th width="20%">Category</th>
+<th width="30%">Category</th>
 <th width="15%">Amount (UGX)</th>
-<th width="25%">Date</th>
+<th width="15%">Date</th>
 </tr>';
 
 $sn = 1;

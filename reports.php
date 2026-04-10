@@ -32,13 +32,13 @@ function getTotal($conn, $table, $column, $condition) {
     return (float)($r['total'] ?? 0);
 }
 
-// ======= PERIOD DEFINITIONS =======
+// ======= PERIOD DEFINITIONS (FIXED TO MATCH DASHBOARD) =======
 $periods = [
-    'daily'     => "DATE(date) = CURDATE()",
-    'weekly'    => "date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)",
-    'monthly'   => "MONTH(date) = MONTH(CURDATE()) AND YEAR(date) = YEAR(CURDATE())",
-    'quarterly' => "QUARTER(date) = QUARTER(CURDATE()) AND YEAR(date) = YEAR(CURDATE())",
-    'annual'    => "YEAR(date) = YEAR(CURDATE())"
+    'daily'     => "DATE(date)=CURDATE()",
+    'weekly'    => "YEARWEEK(date,1)=YEARWEEK(CURDATE(),1)",
+    'monthly'   => "YEAR(date)=YEAR(CURDATE()) AND MONTH(date)=MONTH(CURDATE())",
+    'quarterly' => "YEAR(date)=YEAR(CURDATE()) AND QUARTER(date)=QUARTER(CURDATE())",
+    'annual'    => "YEAR(date)=YEAR(CURDATE())"
 ];
 
 // ======= FETCH DATA =======
@@ -48,7 +48,11 @@ foreach ($periods as $label => $where) {
     $revenue[$label] = getTotal($conn, 'services', 'price', $where);
     $expense[$label] = getTotal($conn, 'expenses', 'amount', $where);
     $profit[$label]  = $revenue[$label] - $expense[$label];
-    $vehicles[$label] = (int)($conn->query("SELECT COUNT(*) AS v FROM services WHERE $where")->fetch_assoc()['v'] ?? 0);
+
+    // ✅ VEHICLES = TOTAL RECORDS (MATCH DASHBOARD)
+    $vehicles[$label] = (int)($conn->query("
+        SELECT COUNT(*) AS v FROM services WHERE $where
+    ")->fetch_assoc()['v'] ?? 0);
 }
 ?>
 <!DOCTYPE html>
